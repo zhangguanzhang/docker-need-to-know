@@ -26,7 +26,7 @@ bash cpu.sh
 
 ![](../.gitbook/assets/image%20%282%29.png)
 
-细心点会发现不一定被调度到同一核上
+细心点会发现它在运行时候不一定一直被调度到同一核上
 
 ![](../.gitbook/assets/image%20%283%29.png)
 
