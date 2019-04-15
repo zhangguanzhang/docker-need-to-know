@@ -1,5 +1,5 @@
 ---
-description: 先简单讲解下cgroup和namespace
+description: docker的隔离是利用的cgroup和namespace，这里仅仅是简单讲解下cgroup和namespace
 ---
 
 # cgroup和namespaces
