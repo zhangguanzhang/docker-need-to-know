@@ -9,6 +9,7 @@
   * [容器 vs VM](untitled/rong-qi-vs-vm.md)
 * [2.docker镜像](docker-jing-xiang/README.md)
   * [镜像是分层的](docker-jing-xiang/jing-xiang-shi-fen-ceng-de.md)
-  * [容器单独一层读写层](docker-jing-xiang/rong-qi-dan-du-yi-ceng-du-xie-ceng.md)
+  * [容器是单独一层读写层](docker-jing-xiang/rong-qi-dan-du-yi-ceng-du-xie-ceng.md)
   * [构建Docker镜像](docker-jing-xiang/gou-jian-docker-jing-xiang.md)
+  * [Dockerfile](docker-jing-xiang/dockerfile.md)
 
