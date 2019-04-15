@@ -60,7 +60,14 @@ cgroup on /sys/fs/cgroup/devices type cgroup (rw,nosuid,nodev,noexec,relatime,de
 cgcreate -g cpu,cpuset:my1
 ```
 
-设置限制使用cpu 1 cgset -r cpuset.cpus=1 my1 cgset -r cpuset.mems=0 my1 设置限制cpu最多用到50%
+设置限制使用cpu 1
+
+```text
+cgset -r cpuset.cpus=1 my1
+cgset -r cpuset.mems=0 my1
+```
+
+设置限制cpu最多用到50%
 
 ```text
 cgset -r cpu.cfs_period_us=100000  my1
