@@ -10,3 +10,5 @@
 * docker inspect 对象 :  查看对象的一些信息，对象可以为docker的所有对象
 * docker history --no-trunc 镜像名 :  查看镜像的构建信息，构建步骤是实际构建步骤
 
+容器名和镜像名均可以用对应sha256的值的id表示，id可以不用写全
+
