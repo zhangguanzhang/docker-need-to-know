@@ -5,4 +5,6 @@
   * [cgroup和namespaces](untitled/cgroup-he-namespaces.md)
   * [安装docker](untitled/an-zhuang-docker.md)
   * [Hello World](untitled/hello-world.md)
+  * [为什么docker搞了个镜像的东西](untitled/untitled-1.md)
+  * [容器 vs VM](untitled/rong-qi-vs-vm.md)
 
