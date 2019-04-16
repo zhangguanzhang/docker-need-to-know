@@ -16,4 +16,5 @@
     * [MAINTAINER](docker-jing-xiang/dockerfile/maintainer.md)
     * [ENV](docker-jing-xiang/dockerfile/env.md)
     * [ARG](docker-jing-xiang/dockerfile/arg.md)
+    * [RUN](docker-jing-xiang/dockerfile/run.md)
 
