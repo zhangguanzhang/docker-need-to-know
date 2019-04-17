@@ -17,4 +17,11 @@
     * [ENV](docker-jing-xiang/dockerfile/env.md)
     * [ARG](docker-jing-xiang/dockerfile/arg.md)
     * [RUN](docker-jing-xiang/dockerfile/run.md)
+    * [COPY](docker-jing-xiang/dockerfile/copy.md)
+    * [ADD](docker-jing-xiang/dockerfile/untitled.md)
+    * [USER](docker-jing-xiang/dockerfile/user.md)
+    * [WORKDIR](docker-jing-xiang/dockerfile/workdir.md)
+    * [ONBUILD](docker-jing-xiang/dockerfile/onbuild.md)
+    * [EXPOSE](docker-jing-xiang/dockerfile/expose.md)
+    * [CMD](docker-jing-xiang/dockerfile/cmd.md)
 
