@@ -8,7 +8,7 @@ description: docker的隔离是利用的cgroup和namespace，这里仅仅是简�
 
 首先测试机器用的centos7.6已经安装过docker，htop看是2核2g
 
-![](../.gitbook/assets/image%20%2824%29.png)
+![](../.gitbook/assets/image%20%2826%29.png)
 
 打开一个终端运行下面脚本
 

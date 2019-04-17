@@ -23,7 +23,7 @@ CMD command param1 param2
 
 在Linux中，只能给init已经安装信号处理函数的信号，其它信号都会被忽略，这可以防止init进程被误杀掉，即使是superuser。所以，kill -9 init不会kill掉init进程。但是容器的进程是在容器的ns里是init级别，我们可以在宿主机上杀掉它，之前线上的低版本docker 命令无法使用，同事无法停止错误容器，我便询问了进程名在宿主机找到后kill掉的。
 
-![](../../.gitbook/assets/image%20%2827%29.png)
+![](../../.gitbook/assets/image%20%2829%29.png)
 
 接下来说说为啥推荐exec格式，exec格式的话第一个进程是我们的sleep进程，大家可以自己去构建镜像试试。推荐用exec格式是因为pid 为1的进程承担着pid namespaces的存活周期，听不懂的话我举个例子
 
@@ -59,7 +59,7 @@ CMD ["nginx", "-g", "daemon off;"]
 
 这里nginx启动带了选项是什么意思呢，我举个初学者自己造轮子做nginx镜像来举例，也顺带按照初学者重复造轮子碰到错误的时候应该怎样去排查
 
-![](../../.gitbook/assets/image%20%2818%29.png)
+![](../../.gitbook/assets/image%20%2819%29.png)
 
 上面我是按照初学者虚拟机的思维去做一个nginx镜像，结果构建错误，我们发现有个失败的容器就是RUN那层创建出来的，前面我说的实际上docker build就是运行容器执行步骤然后最后底层调用commit的原因。
 
@@ -67,9 +67,62 @@ CMD ["nginx", "-g", "daemon off;"]
 
 实际上会发现nginx是在epel-release的源里
 
-![](../../.gitbook/assets/image%20%2823%29.png)
+![](../../.gitbook/assets/image%20%2825%29.png)
 
 接下来改下Dockerfile再构建试试
+
+```text
+$ cat Dockerfile
+FROM centos
+RUN yum install -y epel-release \
+    && yum install -y nginx
+CMD ["nginx"]
+$ docker build -t test .
+```
+
+然后又是一个新手自己做镜像遇到的问题了，这个镜像运行了根本跑不起来，我们手动bash或者sh进去排查
+
+```text
+$ docker run -d -p 80:80 test
+f13e98d4dc13b6fa13e375ca35cc58a23a340a07b677f0df245fc1ef3b7199c6
+$ docker ps -a
+CONTAINER ID     IMAGE        COMMAND      CREATED             STATUS                    PORTS               NAMES
+f13e98d4dc13     test         "nginx"      3 seconds ago       Exited (0) 1 second ago                       determined_elgamal
+```
+
+![](../../.gitbook/assets/image%20%2817%29.png)
+
+为什么这里nginx明明可以起来呢\(当然如果上面run命令加映射的话此时也可以被外部访问到的\)？
+
+不考虑镜像大小和制作精细规范否，现在我这个错误实例的CMD就是和nginx官方的CMD不同，我们在容器里执行下官方的完整的CMD试试
+
+![](../../.gitbook/assets/image%20%2823%29.png)
+
+似乎是卡主了？我们可以访问宿主机的ip:80看看会发现实际能访问到的，也就是说这样也是在运行，当然我们把CMD改成和官方一样直接`docker run -d -p 80:80 test`的话容器是不会退出的。
+
+至于说为啥？答案就是**前台**的概念！
+
+我们有没有发现我们手动执行nginx带关闭daemon选项发现类似于hang住一样，实际上它就是前台跑。
+
+单独的nginx回车，实际上是它拉起来了nginx，然后它退出了，**但是！！！**，别忘记了你这个nginx是pid为1的角色，你退出了你下面子进程全部完蛋，容器也会显示退出。所以既然你最终要跑nginx，你nginx得是前台跑。
+
+判断一个命令\(或者说带上选项\)是不是前台跑的最简单一个验证就是\(主进程sh或者bash进去后\)执行它看它有没有回到终端。例如ls和yes命令，我们会发现yes命令一直刷y没有回到终端。
+
+其实发展到现在，很多以前只有daemon后台跑的进程都慢慢的在docker火热下开始有前台运行的选项或者配置了，例如
+
+* redis的配置文件不写日志文件路径它就默认前台跑
+* uwsgi也是一样，命令行参数或者配置文件指定了日志文件路径就后台跑，否则前台跑
+* node本身是前台跑，但是一些信号可能不好处理，于是有了pm2
+* zabbix 的日志路径写console的话就是前台跑
+* 也有其他的话欢迎读者提issue或者pr
+
+其实我们用上前台选项的话也无法用docker logs看容器的log，是因为docker logs查看的是容器里的标准输出信息，我们可以看到官方nginx镜像Dockerfile是这样做的
+
+```text
+	# forward request and error logs to docker log collector
+	&& ln -sf /dev/stdout /var/log/nginx/access.log \
+	&& ln -sf /dev/stderr /var/log/nginx/error.log
+```
 
 
 
