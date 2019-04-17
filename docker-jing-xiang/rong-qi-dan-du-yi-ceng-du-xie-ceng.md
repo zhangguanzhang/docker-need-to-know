@@ -13,7 +13,7 @@ description: 容器单独一层读写层，容器只读镜像
 
 容器与镜像关系为下图，实际上还有层init层，后面讲
 
-![](../.gitbook/assets/image%20%2823%29.png)
+![](../.gitbook/assets/image%20%2825%29.png)
 
 通过docker ps 的-s选项可以看出容器的size和容器层总大小，这里我用docker命令演示下容器是单独一层读写层和容器死亡数据丢失\(也就是说容器是无状态的\)
 

@@ -23,5 +23,5 @@
     * [WORKDIR](docker-jing-xiang/dockerfile/workdir.md)
     * [ONBUILD](docker-jing-xiang/dockerfile/onbuild.md)
     * [EXPOSE](docker-jing-xiang/dockerfile/expose.md)
-    * [CMD](docker-jing-xiang/dockerfile/cmd.md)
+    * [CMD--与进程前后台和容器存活的关系](docker-jing-xiang/dockerfile/cmd.md)
 
