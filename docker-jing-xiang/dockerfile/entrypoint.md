@@ -8,7 +8,7 @@ CMD和ENTRYPOINT只有一个或者两者都有都可以，容器最终运行的�
 
 例如我们做个测试
 
-![](../../.gitbook/assets/image%20%2811%29.png)
+![](../../.gitbook/assets/image%20%2812%29.png)
 
 alpine的root目录是没有文件的，所以`ls /root`没有输出，我们用选项去覆盖住entrypoint可以看到输出了date。注意一点是覆盖entrypoint的时候镜像的CMD会被忽略，我们真要调试的时候需要加command的话，可以在docker run的镜像后面加command和arg。
 

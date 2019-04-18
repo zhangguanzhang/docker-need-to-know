@@ -31,4 +31,5 @@
   * [如何构建标准且人性化镜像](docker-jing-xiang/ru-he-gou-jian-biao-zhun-qie-ren-xing-hua-jing-xiang.md)
 * [3.容器无法运行排错](3.-rong-qi-wu-fa-yun-hang-pai-cuo.md)
 * [4.运行中的问题](4.-yun-hang-zhong-de-wen-ti.md)
+* [5.数据持久化](5.-shu-ju-chi-jiu-hua.md)
 

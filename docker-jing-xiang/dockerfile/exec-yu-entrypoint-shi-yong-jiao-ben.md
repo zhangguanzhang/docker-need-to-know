@@ -47,7 +47,7 @@ exec "$@"
 
 然后在脚本最后面加一行exec pstree -p看看输出
 
-![](../../.gitbook/assets/image%20%2817%29.png)
+![](../../.gitbook/assets/image%20%2820%29.png)
 
 我们发现bash进程运行的时候pid是17030，然后第二个pstree上升到了17030这一层次了，假设pid为a的命令或者二进制exec执行了命令b，那b就接替了a的pid。如果说我们entrypoint或者cmd使用脚本，那么我们一定要在脚本最后启动业务进程的时候前面加个exec让脚本退位让贤。
 
