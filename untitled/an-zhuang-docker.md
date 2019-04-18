@@ -20,13 +20,13 @@ sed -ri '/^[^#]*SELINUX=/s#=.+$#=disabled#' /etc/selinux/config
 systemctl disable --now dnsmasq
 ```
 
-默认下系统的USser namespaces是没开的，需要我们手动开启
+默认下系统的User namespaces是没开的，需要我们手动开启
 
 ```text
 grubby --args="user_namespace.enable=1" --update-kernel="$(grubby --default-kernel)"
 ```
 
-这个开启时设置内核的，需要reboot下
+这个开启设置了内核的，所以需要reboot生效
 
 ```text
 reboot
