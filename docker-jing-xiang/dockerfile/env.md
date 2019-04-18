@@ -58,3 +58,5 @@ JAVA_OPTS="... ${JAVA_OPTS} ..."
 ENV  JAVA_OPTS='-Duser.timezone=GMT+08'
 ```
 
+docker run 有选可以指定env，ENV指令不一样是给Dockerfile用的，有时候是给容器启动时候用的，我们可以在docker run的时候指定env或者覆盖env达到不需要修改镜像，例如常见的后端需要连接一个mysql，可以在后端代码os.getEnv\("mysql\_address"\)，我们启动的时候指定mysql\_address变量为真实的mysql地址即可。
+

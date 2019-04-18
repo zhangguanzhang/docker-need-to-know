@@ -1,0 +1,53 @@
+# exec与entrypoint使用脚本
+
+其实现在很多有状态的官方镜像的ENTRYPOINT都是使用了一个脚本。例如redis
+
+```text
+COPY docker-entrypoint.sh /usr/local/bin/
+ENTRYPOINT ["docker-entrypoint.sh"]
+
+EXPOSE 6379
+CMD ["redis-server"]
+```
+
+```text
+#!/bin/sh
+set -e
+
+# first arg is `-f` or `--some-option`
+# or first arg is `something.conf`
+if [ "${1#-}" != "$1" ] || [ "${1%.conf}" != "$1" ]; then
+	set -- redis-server "$@"
+fi
+
+# allow the container to be started with `--user`
+if [ "$1" = 'redis-server' -a "$(id -u)" = '0' ]; then
+	find . \! -user redis -exec chown redis '{}' +
+	exec gosu redis "$0" "$@"
+fi
+
+exec "$@"
+```
+
+最终运行的是`docker-entrypoint.sh  redis-server`
+
+第一个if的逻辑是如果docker run 选项 redis -x 或者--xx或者xxx.conf，就把脚本收到的$@改编成redis-server $@,例如我们可同docker run -d redis --port 7379修改启动的容器里的redis端口。如果我们传入的command不是-开头的也不是.conf结尾的字符，例如是date，则会跑到最后的逻辑执行我们的date命令不会启动redis-server
+
+第二个if这里，如果满足第一个if或者直接默认的cmd下而且容器里用户uid是0，则把属主不是redis的文件改成redis用户，然后切成redis用户去启动redis-server。
+
+我们可以看到entrypoint能在业务进程启动前做很多事情。而且优秀的镜像都离不开entrypoint脚本，能够根据用户传入的变量和command来切换启动的场景和配置。
+
+前面说了，主进程一定要是业务进程，这里怎么是个脚本呢，那业务进程不就不是pid为1了吗？ 这里用了exec来退位让贤，最终redis-server还是pid为1的。可以简单几个命令讲解下exec的作用。
+
+写个test.sh脚本，在脚本里用pstree -p，运行脚本bash test.sh查看进程层次
+
+![](../../.gitbook/assets/image.png)
+
+发现pstree是在我们脚本bash\(17003\)的子进程
+
+然后在脚本最后面加一行exec pstree -p看看输出
+
+![](../../.gitbook/assets/image%20%2814%29.png)
+
+我们发现bash进程运行的时候pid是17030，然后第二个pstree上升到了17030这一层次了，假设pid为a的命令或者二进制exec执行了命令b，那b就接替了a的pid。如果说我们entrypoint或者cmd使用脚本，那么我们一定要在脚本最后启动业务进程的时候前面加个exec让脚本退位让贤。
+

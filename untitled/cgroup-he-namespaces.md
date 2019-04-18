@@ -8,7 +8,7 @@ description: docker的隔离是利用的cgroup和namespace，这里仅仅是简�
 
 首先测试机器用的centos7.6已经安装过docker，htop看是2核2g
 
-![](../.gitbook/assets/image%20%2828%29.png)
+![](../.gitbook/assets/image%20%2835%29.png)
 
 打开一个终端运行下面脚本
 
@@ -24,11 +24,11 @@ bash cpu.sh
 
 再开一个终端使用htop发现吃满cpu的就是它
 
-![](../.gitbook/assets/image%20%2818%29.png)
+![](../.gitbook/assets/image%20%2824%29.png)
 
 细心点会发现它在运行时候不一定一直被调度到同一核上
 
-![](../.gitbook/assets/image%20%287%29.png)
+![](../.gitbook/assets/image%20%2811%29.png)
 
 ctrl+c停掉脚本后安装cgroup配置工具
 
@@ -80,7 +80,7 @@ cgset -r cpu.cfs_quota_us=50000  my1
 cgexec  -g cpuset,cpu:/my1 bash cpu.sh
 ```
 
-![](../.gitbook/assets/image%20%2812%29.png)
+![](../.gitbook/assets/image%20%2817%29.png)
 
 我们发现cpu被限制在第二个核心上一直50%\(ps:htop显示的index是从1开始，cgset是从0开始\)
 
