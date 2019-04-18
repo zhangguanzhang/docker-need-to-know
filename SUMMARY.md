@@ -29,4 +29,5 @@
     * [STOPSIGNAL--与信号转发](docker-jing-xiang/dockerfile/stopsignal.md)
     * [exec与entrypoint使用脚本](docker-jing-xiang/dockerfile/exec-yu-entrypoint-shi-yong-jiao-ben.md)
   * [如何构建标准且人性化镜像](docker-jing-xiang/ru-he-gou-jian-biao-zhun-qie-ren-xing-hua-jing-xiang.md)
+* [3.容器无法运行排错](3.-rong-qi-wu-fa-yun-hang-pai-cuo.md)
 

@@ -11,19 +11,19 @@ CMD command param1 param2
 
 前者是exec格式也是推荐格式，后者是/bin/sh格式，exec和CMD还有ENTRYPOINT这三者之间联系非常紧密，后面单独将相关的知识点。这里先用一个例子讲/bin/sh格式啥意思
 
-![](../../.gitbook/assets/image%20%2821%29.png)
+![](../../.gitbook/assets/image%20%2827%29.png)
 
 我们发现pid为1的是一个/bin/sh的进程，而我们的进程在容器里在后面。容器是单独一个pid namespaces的。这里懒得去做个图了，借用下别人的图
 
-![](../../.gitbook/assets/image%20%284%29.png)
+![](../../.gitbook/assets/image%20%287%29.png)
 
 默认下所有进程在一个顶级的pid namespaces里，pid namespaces像一个树一样。从根到最后可以多级串。容器的pid namespaces实际上是在宿主机上能看到的，也就是下面，我们可以看到容器在宿主机上的进程，由于子namespaces无法看到父级的namespaces，所以容器里第一个进程\(也就是cmd\)认为自己是pid为1，容器里其余进程都是它的子进程。
 
-![](../../.gitbook/assets/image%20%289%29.png)
+![](../../.gitbook/assets/image%20%2812%29.png)
 
 在Linux中，只能给init已经安装信号处理函数的信号，其它信号都会被忽略，这可以防止init进程被误杀掉，即使是superuser。所以，kill -9 init不会kill掉init进程。但是容器的进程是在容器的ns里是init级别，我们可以在宿主机上杀掉它，之前线上的低版本docker 命令无法使用，同事无法停止错误容器，我便询问了进程名在宿主机找到后kill掉的。
 
-![](../../.gitbook/assets/image%20%2838%29.png)
+![](../../.gitbook/assets/image%20%2845%29.png)
 
 接下来说说为啥推荐exec格式，exec格式的话第一个进程是我们的sleep进程，大家可以自己去构建镜像试试。推荐用exec格式是因为pid 为1的进程承担着pid namespaces的存活周期，听不懂的话我举个例子
 
@@ -59,7 +59,7 @@ CMD ["nginx", "-g", "daemon off;"]
 
 这里nginx启动带了选项是什么意思呢，我举个初学者自己造轮子做nginx镜像来举例，也顺带按照初学者重复造轮子碰到错误的时候应该怎样去排查
 
-![](../../.gitbook/assets/image%20%2827%29.png)
+![](../../.gitbook/assets/image%20%2834%29.png)
 
 上面我是按照初学者虚拟机的思维去做一个nginx镜像，结果构建错误，我们发现有个失败的容器就是RUN那层创建出来的，前面我说的实际上docker build就是运行容器执行步骤然后最后底层调用commit的原因。
 
@@ -67,7 +67,7 @@ CMD ["nginx", "-g", "daemon off;"]
 
 实际上会发现nginx是在epel-release的源里
 
-![](../../.gitbook/assets/image%20%2834%29.png)
+![](../../.gitbook/assets/image%20%2841%29.png)
 
 接下来改下Dockerfile再构建试试
 
@@ -90,13 +90,13 @@ CONTAINER ID     IMAGE        COMMAND      CREATED             STATUS           
 f13e98d4dc13     test         "nginx"      3 seconds ago       Exited (0) 1 second ago                       determined_elgamal
 ```
 
-![](../../.gitbook/assets/image%20%2825%29.png)
+![](../../.gitbook/assets/image%20%2831%29.png)
 
 为什么这里nginx明明可以起来呢？  当然如果上面run命令加映射的话此时也可以被外部访问到的。
 
 不考虑镜像大小和制作精细规范否，现在我这个错误实例的CMD就是和nginx官方的CMD不同，我们在容器里执行下官方的完整的CMD试试
 
-![](../../.gitbook/assets/image%20%2832%29.png)
+![](../../.gitbook/assets/image%20%2839%29.png)
 
 似乎是卡主了？我们可以访问宿主机的ip:80看看会发现实际能访问到的，也就是说这样也是在运行，当然我们把CMD改成和官方一样直接`docker run -d -p 80:80 test`的话容器是不会退出的。
 
