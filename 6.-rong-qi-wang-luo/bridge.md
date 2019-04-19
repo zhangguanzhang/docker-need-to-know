@@ -34,7 +34,7 @@ bridge模式如下图所示：
 
 流程为下图，引用下cloudman的图（他宿主机网卡名为enp0s3，网卡ip和我不一样）
 
-![](../.gitbook/assets/image%20%2853%29.png)
+![](../.gitbook/assets/image%20%2854%29.png)
 
 ### 外面访问容器：
 
