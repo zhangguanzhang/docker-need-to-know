@@ -2,7 +2,7 @@
 
 可以在docker run --net=xxx  来指定容器使用的网络类型
 
-![](../.gitbook/assets/image%20%2837%29.png)
+![](../.gitbook/assets/image%20%2838%29.png)
 
 * 默认的bridge
 * 不隔离network namespaces的host模式，容器网络和宿主机一样
