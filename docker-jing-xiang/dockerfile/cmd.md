@@ -23,7 +23,7 @@ CMD command param1 param2
 
 在Linux中，只能给init已经安装信号处理函数的信号，其它信号都会被忽略，这可以防止init进程被误杀掉，即使是superuser。所以，kill -9 init不会kill掉init进程。但是容器的进程是在容器的ns里是init级别，我们可以在宿主机上杀掉它，之前线上的低版本docker 命令无法使用，同事无法停止错误容器，我便询问了进程名在宿主机找到后kill掉的。
 
-![](../../.gitbook/assets/image%20%2870%29.png)
+![](../../.gitbook/assets/image%20%2871%29.png)
 
 接下来说说为啥推荐exec格式，exec格式的话第一个进程是我们的sleep进程，大家可以自己去构建镜像试试。推荐用exec格式是因为pid 为1的进程承担着pid namespaces的存活周期，听不懂的话我举个例子
 
