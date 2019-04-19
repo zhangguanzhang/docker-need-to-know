@@ -6,3 +6,5 @@
 
 ![](.gitbook/assets/image%20%2811%29.png)
 
+从没接触过docker的不建议看，可能太吃力了。
+
