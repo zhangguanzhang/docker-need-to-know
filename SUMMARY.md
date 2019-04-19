@@ -32,5 +32,7 @@
 * [3.容器无法运行排错](3.-rong-qi-wu-fa-yun-hang-pai-cuo.md)
 * [4.运行中的问题](4.-yun-hang-zhong-de-wen-ti.md)
 * [5.数据持久化](5.-shu-ju-chi-jiu-hua.md)
-* [6.容器网络](6.-rong-qi-wang-luo.md)
+* [6.容器网络](6.-rong-qi-wang-luo/README.md)
+  * [bridge](6.-rong-qi-wang-luo/bridge.md)
+  * [host](6.-rong-qi-wang-luo/host.md)
 
