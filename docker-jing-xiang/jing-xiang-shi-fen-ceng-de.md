@@ -8,7 +8,7 @@
 
 ![](../.gitbook/assets/image%20%2870%29.png)
 
-实际上只有不同的才占据存储空间，相同的是引用关系。默认存储路径是`/var/lib/docker/存储驱动类型/`
+实际上只有不同的才占据存储空间，相同的是引用关系。抽象看镜像是一个实体，实际上是/var/lib/docker目录里的分层文件+一些json和db文件把层联系起来组成了镜像。存储路径是`/var/lib/docker/存储驱动类型/`
 
 ![](../.gitbook/assets/image%20%2812%29.png)
 
