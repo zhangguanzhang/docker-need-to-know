@@ -51,3 +51,16 @@ exec "$@"
 
 我们发现bash进程运行的时候pid是17030，然后第二个pstree上升到了17030这一层次了，假设pid为a的命令或者二进制exec执行了命令b，那b就接替了a的pid。如果说我们entrypoint或者cmd使用脚本，那么我们一定要在脚本最后启动业务进程的时候前面加个exec让脚本退位让贤。
 
+最后环境变量写配置文件涉及到修改，还有一些判断是否初次启动的有下面一些工具或者套路
+
+* xmlstarlet 处理xml
+* pip安装shyaml 处理yaml
+* jq读取json
+* nodejs的npm安装json可以修改json文件
+* 处理excel或者csv使用in2csv，csvkit 提供了 in2csv，csvcut，csvjoin，csvgrep
+* touch -d "@0"写在构建的最后一个RUN里把时间戳设置为1970-1-1，然后用stat命令判断
+* ```text
+  if [ "$(stat -c "%Y" "${CONF_INSTALL}/conf/server.xml")" -eq "0" ]; then
+  ```
+* 另外entrypoint脚本COPY进去的时候注意可执行权限，如果Windows上传到Linux构建会因为entrpoint脚本没带权限无法运行
+
