@@ -44,3 +44,7 @@ id的话不便于长期发展，而latest标签无法回滚
 
 第二种每次启动都需要下载，需要网速，如果是内网可以尝试，代码或者war包啥的都是在容器层，不会吃宿主机多大容量。实在接受不了可以运维给研发做个这种通用镜像给他们用
 
+
+
+最后是推荐一个漠然大佬的示例，漠然大佬的github上很多镜像下载量很多，可以去他github看，这里我放下他的java的应用示例 [https://github.com/Gozap/dockerfile](https://github.com/Gozap/dockerfile)
+
