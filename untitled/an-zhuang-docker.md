@@ -89,3 +89,9 @@ cp /usr/share/bash-completion/completions/docker /etc/bash_completion.d/
 systemctl enable --now docker
 ```
 
+如果docker启动失败删掉配置文件下面的内容，然后删掉/var/lib/docker后再重启，这个原因在于根分区是lvm的时候很大几率出现，原因没去关注过
+
+```text
+  "storage-driver": "overlay2",
+```
+
