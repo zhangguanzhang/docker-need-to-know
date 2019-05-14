@@ -6,5 +6,5 @@
 
 ![](.gitbook/assets/image%20%2811%29.png)
 
-从没接触过docker的不建议看，可能太吃力了。
+从没接触过docker的不建议看，可能太吃力了。目录点击仓库根目录的\` [SUMMARY.md](https://github.com/zhangguanzhang/docker-need-to-know/blob/master/SUMMARY.md)\`
 
