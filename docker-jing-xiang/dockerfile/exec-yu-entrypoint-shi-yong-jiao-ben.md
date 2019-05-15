@@ -31,7 +31,7 @@ exec "$@"
 
 最终运行的是`docker-entrypoint.sh  redis-server`
 
-第一个if的逻辑是如果docker run 选项 redis -x 或者--xx或者xxx.conf，就把脚本收到的$@改成
+第一个if的逻辑是如果`docker run -some_option redis镜像名` 后面接-x 或者--xx或者xxx.conf，就把脚本收到的$@改成
 
 ```text
 redis-server 脚本收到的$@
@@ -63,14 +63,14 @@ docker run -d -p 7379:7379 redis --port 7379
 
 我们发现bash进程运行的时候pid是17030，然后第二个pstree上升到了17030这一层次了，假设pid为a的命令或者二进制exec执行了命令b，那b就接替了a的pid。如果说我们entrypoint或者cmd使用脚本，那么我们一定要在脚本最后启动业务进程的时候前面加个exec让脚本退位让贤。
 
-最后环境变量写配置文件涉及到修改，还有一些判断是否初次启动的有下面一些工具或者套路
+最后环境变量写配置文件涉及到修改，还有一些判断是否初次启动的，有下面一些工具或者套路
 
 * xmlstarlet 处理xml
 * pip安装shyaml 处理yaml
 * jq读取json
 * nodejs的npm安装json可以修改json文件
 * 处理excel或者csv使用in2csv，csvkit 提供了 in2csv，csvcut，csvjoin，csvgrep
-* touch -d "@0"写在构建的最后一个RUN里把时间戳设置为1970-1-1，然后用stat命令判断
+* touch -d "@0"写在构建的最后一个RUN里把时间戳设置为1970-1-1，然后用stat命令判断是否初次启动
 * ```text
   if [ "$(stat -c "%Y" "${CONF_INSTALL}/conf/server.xml")" -eq "0" ]; then
   ```
