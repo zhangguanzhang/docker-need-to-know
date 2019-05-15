@@ -31,7 +31,19 @@ exec "$@"
 
 最终运行的是`docker-entrypoint.sh  redis-server`
 
-第一个if的逻辑是如果docker run 选项 redis -x 或者--xx或者xxx.conf，就把脚本收到的$@改编成redis-server $@,例如我们可同docker run -d redis --port 7379修改启动的容器里的redis端口。如果我们传入的command不是-开头的也不是.conf结尾的字符，例如是date，则会跑到最后的逻辑执行我们的date命令不会启动redis-server
+第一个if的逻辑是如果docker run 选项 redis -x 或者--xx或者xxx.conf，就把脚本收到的$@改成
+
+```text
+redis-server 脚本收到的$@
+```
+
+例如我们可用修改容器里的redis端口。
+
+```text
+docker run -d -p 7379:7379 redis --port 7379
+```
+
+如果我们传入的command不是`-`开头的也不是`.conf`结尾的字符，例如是date，则会跑到最后的逻辑执行我们的date命令不会启动redis-server
 
 第二个if这里，如果满足第一个if或者直接默认的cmd下而且容器里用户uid是0，则把属主不是redis的文件改成redis用户，然后切成redis用户去启动redis-server。
 
