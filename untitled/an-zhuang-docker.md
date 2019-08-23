@@ -20,6 +20,19 @@ sed -ri '/^[^#]*SELINUX=/s#=.+$#=disabled#' /etc/selinux/config
 systemctl disable --now dnsmasq
 ```
 
+设置下ulimt的值，改`/etc/security/limits.conf`或者`/etc/security/limits.d/`下子配置文件 
+
+```text
+*       soft    nproc   131072
+*       hard    nproc   131072
+*       soft    nofile  131072
+*       hard    nofile  131072
+root    soft    nproc   131072
+root    hard    nproc   131072
+root    soft    nofile  131072
+root    hard    nofile  131072
+```
+
 默认下系统的User namespaces是没开的，需要我们手动开启
 
 ```text
