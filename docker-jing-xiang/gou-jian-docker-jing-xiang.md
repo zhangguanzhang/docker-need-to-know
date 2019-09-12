@@ -8,7 +8,7 @@
 docker build [option] [-t <image>:<tag>]  <path>
 ```
 
-其中paht指向的文件称为context（上下文），context包含build docker镜像过程中需要的Dockerfile以及其他的资源文件。执行build命令后执行流程如下
+其中path指向的文件称为context（上下文），context包含build docker镜像过程中需要的Dockerfile以及其他的资源文件。执行build命令后执行流程如下
 
 **Docker client端：**
 

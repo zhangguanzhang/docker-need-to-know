@@ -23,7 +23,8 @@ id的话不便于长期发展，而latest标签无法回滚
 最后一些零散的建议和常见错误
 
 * 编写entrypoint脚本让启动更人性化
-* 同时如果是初期上docker到生产，考虑到排错啥的，可以在官方dockerfile里添加一些常见的排错命
+* 同时如果是初期上docker到生产，考虑到排错啥的，可以在官方dockerfile里添加一些常见的排错命令
+* 如果是网络出现故障,可以基于大的rootfs安装一些网络排查的相关工具然后`docker run --rm -ti --net container=目标容器 工具镜像名 bash` 利用同一个network namespaces去同样网络里排查
 * 尽量使用ENV和ARG让人不改或者少改Dockerfile即可做构建对应版本的镜像
 * 容器时间不对的话可以构建镜像的时候安装包tzdate，然后声明变量TZ即可声明容器运行的时区，或者构建的时候复制宿主机的`/etc/localtime`或者运行的时候挂载宿主机的`/etc/localtime`，另外要注意时间和时区是两回事，例如prometheus的web页面上是js代码强制使用UTC时区，时间是对的，只能修改源码里的js部分，而不是时间不对。
 * 如果是编译型语言，妥善利用多阶段构建（后面容器无法运行排错的时候会讲解多阶构建）
