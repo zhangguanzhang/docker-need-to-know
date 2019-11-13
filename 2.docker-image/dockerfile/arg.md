@@ -7,12 +7,12 @@ description: 用户可以docker build时使用--build-arg <varname>=<value> 将�
 格式有两种
 
 ```text
-ARG key
+ARG key1
+ARG key2
 ----------------
 ARK key=value
-ARG key=value \
-    key2=value2 \
-    key3=value3 
+ARK key2=value2
+...
 ```
 
 一般来讲第二种用得多，表明build的时候不传入变量设置默认值，无值也就是第一种下用户在docker build的时候必须传入值，否则就报错。例如我们可以把nginx官方dockerfile的第一个ENV改成ARG，我们想构建哪个版本直接build的时候传入变量就行了
