@@ -70,6 +70,8 @@ docker run -d -p 7379:7379 redis --port 7379
 * xmlstarlet 处理xml
 * pip安装shyaml 处理yaml
 * jq读取json
+* envsubst &lt; xxx.template &gt; xxx.conf
+* jsonnet 生成yaml或者json
 * nodejs的npm安装json可以修改json文件
 * 处理excel或者csv使用in2csv，csvkit 提供了 in2csv，csvcut，csvjoin，csvgrep
 * touch -d "@0"写在构建的最后一个RUN里把时间戳设置为1970-1-1，然后用stat命令判断是否初次启动
