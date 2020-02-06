@@ -4,7 +4,7 @@
 
 FROM &lt;baseimage&gt;   或者   FROM &lt;baseimage&gt;:&lt;tag&gt;
 
-指定从哪个镜像为基础迭代，如果本地没有镜像则会从仓库拉取，通常是第一行，而scratch是空镜像，是所有rootfs和一些单独可执行文件做镜像的根源，关于scratch后续会说
+指定从哪个镜像为基础迭代，如果本地没有镜像则会从仓库拉取，通常是第一行，镜像默认tag为latest，生产中不能使用latest标签。而scratch是空镜像，是所有rootfs和一些单独可执行文件做镜像的根源，关于scratch后续会说
 
 例如centos的Dockerfile是下面
 
