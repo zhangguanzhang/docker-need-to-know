@@ -19,3 +19,12 @@ ADD下载源码包，然后RUN里编译安装完删除源码包。实际上后�
 
 总结就是不推荐使用ADD
 
+另外要注意alpine的tar的一个坑，例如
+
+```text
+RUN apk add curl && \
+    curl -sL https:/xxxx/xxx.tar.gz | tar -zxvf - 
+```
+
+这样在alpine的基础镜像会报错`tar: invalid magic`, 我们得调整下tar的选项为`-xvzf`
+
