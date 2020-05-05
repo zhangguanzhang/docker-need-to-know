@@ -26,5 +26,7 @@ RUN apk add curl && \
     curl -sL https:/xxxx/xxx.tar.gz | tar -zxvf - 
 ```
 
-这样在alpine的基础镜像下某些情况下会有几率报错`tar: invalid magic`,  推荐下载后解压，用完了再删掉压缩包和相关文件
+这样在alpine的基础镜像下某些情况下会有几率报错`tar: invalid magic`,  推荐下载后解压，用完了再删掉压缩包和相关文件。或者安装tar命令
+
+[https://tutel.me/c/unix/questions/302192/how+to+solve+tar+invalid+magic+error+on+linux+alpine](https://tutel.me/c/unix/questions/302192/how+to+solve+tar+invalid+magic+error+on+linux+alpine)
 
