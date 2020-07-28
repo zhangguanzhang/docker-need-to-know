@@ -2,7 +2,7 @@
 
 其实到现在依然有人在有了一套docker服务后去写个启动脚本或者docker run一大堆参数，这样非常不方便。早期有人针对启动一套服务二开发了一个项目，好像仅仅只是两个开发者开发了一个叫fig的项目，用户用yaml声明服务和容器参数最后用api去调用docker daemon创建容器。最终Fig已经被Docker公司收购并成为官方支持的解决方案。
 
-实际上我们在dockerhub上寻找镜像的时候，下面的readme多多少少会有docker-compose的yaml示例文件
+实际上我们在dockerhub上寻找镜像的时候，跳转到对应的github上的readme多多少少会有docker-compose的yaml示例文件
 
 例如我
 
