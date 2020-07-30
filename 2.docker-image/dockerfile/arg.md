@@ -27,12 +27,12 @@ FROM openjdk:$jdk
 如果你在FROM前面使用arg指令会有个坑，在FROM前面的ARG指令的值，会在FROM后面都是空值的
 
 ```text
-$ cat Dockerfile
+$ cat Dockerfile //Dockerfle的内容
 ARG version=1
 FROM alpine
 ARG var=2
 RUN echo ${version}-${var} >/test
-$ docker build -t test .
+$ docker build -t test . //构建镜像
 Sending build context to Docker daemon  2.048kB
 Step 1/4 : ARG version=1
 Step 2/4 : FROM alpine
@@ -47,8 +47,8 @@ Removing intermediate container ac3d3c203ce7
  ---> 0fefcb646a01
 Successfully built 0fefcb646a01
 Successfully tagged test:latest
-$ docker run --rm test cat /test
--2
+$ docker run --rm test cat /test //运行容器查看文件内容
+-2 //这里不是预期的1-2结果
 ```
 
 Docker其实也预定了一些ARG方便我们构建的时候使用代理
