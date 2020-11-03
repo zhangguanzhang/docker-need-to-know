@@ -68,7 +68,7 @@ docker run -d -p 7379:7379 redis --port 7379
 最后环境变量写配置文件涉及到修改，还有一些判断是否初次启动的，有下面一些工具或者套路
 
 * xmlstarlet 处理xml
-* pip安装shyaml 处理yaml
+* pip安装shyaml 处理yaml，当然还是推荐[https://github.com/mikefarah/yq](https://github.com/mikefarah/yq) 的二进制文件处理yaml文件
 * jq读取json
 * envsubst &lt; xxx.template &gt; xxx.conf
 * jsonnet 生成yaml或者json
