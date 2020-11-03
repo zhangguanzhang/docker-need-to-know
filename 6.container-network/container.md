@@ -42,7 +42,7 @@ search default.svc.cluster.local svc.cluster.local cluster.local
 options ndots:5
 ```
 
-nsenter带上 `--mount` 才能看到容器的`/etc/resolv.conf`，但是这样进去就是容器的rootfs了，没有排查命令，所以更多时候还是准备一个工具镜像使用docker run --net container去排查最保险
+nsenter带上 `--mount` 才能看到容器的`/etc/resolv.conf`，但是这样进去就是容器的rootfs了，没有排查命令，所以更多时候还是准备一个工具镜像使用`docker run --net container`去排查最保险
 
 ```text
 $ docker run --rm --net container:a7abc0e4af98 alpine:latest cat /etc/resolv.conf
