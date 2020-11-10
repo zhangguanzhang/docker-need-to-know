@@ -28,6 +28,7 @@
     * [VOLUME](2.docker-image/dockerfile/volume.md)
     * [STOPSIGNAL--与信号转发](2.docker-image/dockerfile/stopsignal.md)
     * [exec与entrypoint使用脚本](2.docker-image/dockerfile/exec-and-entrypoint.md)
+    * [使用 buildx 构建多平台 Docker 镜像](2.docker-image/dockerfile/shi-yong-buildx-gou-jian-duo-ping-tai-docker-jing-xiang.md)
   * [如何构建标准且人性化镜像](2.docker-image/great-images.md)
 * [3.容器无法运行排错](3.container-cannot-run.md)
 * [4.运行中的问题](4.errors-while-running.md)
