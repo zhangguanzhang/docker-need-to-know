@@ -10,8 +10,8 @@ description: 用户可以docker build时使用--build-arg <varname>=<value> 将�
 ARG key1
 ARG key2
 ----------------
-ARK key=value
-ARK key2=value2
+ARG key=value
+ARG key2=value2
 ...
 ```
 
