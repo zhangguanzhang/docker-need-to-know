@@ -60,8 +60,6 @@ ENV  JAVA_OPTS='-Duser.timezone=GMT+08'
 
 docker run 有选可以指定env，ENV指令不一样是给Dockerfile用的，有时候是给容器启动时候用的，我们可以在docker run的时候指定env或者覆盖env达到不需要修改镜像，例如常见的后端需要连接一个mysql，可以在后端代码os.getEnv\("mysql\_address"\)，我们启动的时候指定mysql\_address变量为真实的mysql地址即可。
 
-
-
 ### --env-file
 
 命令行或者api的env-file这个有个坑，文件是按照`=`去split的，就是说值不能带引号，引号也会传到值里去，否则会错误
@@ -71,5 +69,10 @@ $ cat .env
 FOO="bar"
 $ docker run --rm --env-file .env $IMG sh -c 'echo $FOO'
 "bar"
+
+$ cat .env2
+FOO=bar
+$ docker run --rm --env-file .env $IMG sh -c 'echo $FOO'
+bar
 ```
 
