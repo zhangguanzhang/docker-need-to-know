@@ -104,7 +104,7 @@ default      docker
 
 #### 构建多平台镜像 <a id="&#x6784;&#x5EFA;&#x591A;&#x5E73;&#x53F0;&#x955C;&#x50CF;"></a>
 
-platform必须小于等于构建器创建时的platform，--push是推送，必须提前登录
+`docker buildx build` 时候的 `--platform`后面架构参数必须小于等于构建器创建时的`--platform`，`--push`是推送，必须提前登录
 
 ```text
 docker buildx build -t zhangguanzhang/keepalived:v2.0.20 . \
