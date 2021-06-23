@@ -67,16 +67,16 @@ docker run -d -p 7379:7379 redis --port 7379
 
 最后环境变量写配置文件涉及到修改，还有一些判断是否初次启动的，有下面一些工具或者套路
 
-* xmlstarlet 处理xml
-* pip安装shyaml 处理yaml，当然还是推荐[https://github.com/mikefarah/yq](https://github.com/mikefarah/yq) 的二进制文件处理yaml文件
-* jq读取json
-* envsubst &lt; xxx.template &gt; xxx.conf
-* jsonnet 生成yaml或者json
-* nodejs的npm安装json可以修改json文件
-* 处理excel或者csv使用in2csv，csvkit 提供了 in2csv，csvcut，csvjoin，csvgrep
-* touch -d "@0"写在构建的最后一个RUN里把时间戳设置为1970-1-1，然后用stat命令判断是否初次启动
+* xmlstarlet 处理 xml
+* pip 安装 shyaml 处理yaml，当然还是推荐[https://github.com/mikefarah/yq](https://github.com/mikefarah/yq) 的二进制文件处理 yaml 文件不依赖python环境
+* jq 读取 json
+* envsubst &lt; xxx.template &gt; xxx.conf 直接把模板文件里的shell变量从env渲染
+* jsonnet 生成 yaml 或者 json
+* nodejs 的 npm 安装 json 可以修改 json 文件
+* 处理 excel 或者 csv 使用 in2csv，csvkit 提供了 in2csv，csvcut，csvjoin，csvgrep
+* \`touch -d "@0"\`写在构建的最后一个RUN里把时间戳设置为1970-1-1，然后用 stat 命令判断是否初次启动
 * ```text
   if [ "$(stat -c "%Y" "${CONF_INSTALL}/conf/server.xml")" -eq "0" ]; then
   ```
-* 另外entrypoint脚本COPY进去的时候注意可执行权限，如果Windows上传到Linux构建会因为entrpoint脚本没带权限无法运行
+* 另外 entrypoint 脚本 COPY 进去的时候注意可执行权限，如果 Windows 上传到 Linux 构建会因为 entrypoint 脚本没带权限无法运行
 

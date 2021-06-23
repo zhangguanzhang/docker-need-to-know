@@ -15,7 +15,14 @@ ARG key2=value2
 ...
 ```
 
-一般来讲第二种用得多，表明build的时候不传入变量设置默认值，无值也就是第一种下用户在docker build的时候必须传入值，否则就报错。例如我们可以把nginx官方dockerfile的第一个ENV改成ARG，我们想构建哪个版本直接build的时候传入变量就行了
+一般来讲第二种用得多，表明build的时候不传入变量设置默认值，无值也就是第一种下用户在docker build的时候必须传入值，否则就报错。例如我们可以把nginx官方dockerfile的第一个ENV改成ARG，我们想构建哪个版本直接build的时候传入变量就行了。例如下面这样`VERSION=2.4.7`
+
+```text
+ARG VERSION=2.4.7
+RUN .... && \
+    curl -sS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup \
+        | bash -s -- -mariadb-maxscale-version $VERSION
+```
 
 当然ARG是唯一一个可以用于FROM前面的指令，例如下面这样我们可以通过命令行传递参数来改变FROM的base镜像
 
