@@ -42,4 +42,5 @@
   * [init层与过时的--link](6.container-network/guo-shi-de-link-yu-init-ceng.md)
   * [容器互联](6.container-network/container-network-interconnected.md)
 * [7.编排利器docker-compose](docker-compose.md)
+* [8.一些使用配置问题](some-conf-in-use.md)
 
