@@ -30,3 +30,15 @@ $ docker ps -a | grep fc66
 fc6676704786     treg.xxxx.xxx.cn/xxxxxx/ftp_nginx:xxx   "/bin/ba…"   2 weeks ago     Up 13 days           ftp_nginx
 ```
 
+### 判断是否在容器内
+
+`/proc/1/sched`的第一行会显示真实的 pid，所以可以靠这个来判断是否是在容器内
+
+```text
+if [ `head -n1 /proc/1/sched | cut -d \( -f2 | cut -d, -f1` -eq 1 ];then
+    echo not in container
+else
+    echo in container
+fi
+```
+
