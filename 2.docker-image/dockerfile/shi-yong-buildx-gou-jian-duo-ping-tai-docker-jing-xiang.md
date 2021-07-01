@@ -23,6 +23,9 @@ github.com/docker/buildx v0.3.0-5-g5b97415-tp-docker 5b974158f94f67d2bc072a8853f
 
 ```text
 docker run --rm --privileged docker/binfmt:a7996909642ee92942dcd6cff44b9b95f08dad64
+# 上面这个很久没人维护了，可以试试下面的
+docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+
 ```
 
 建议将 Linux 内核版本升级到 4.x 以上，特别是 CentOS 用户，你可能会遇到错误。
