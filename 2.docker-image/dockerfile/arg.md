@@ -15,7 +15,7 @@ ARG key2=value2
 ...
 ```
 
-一般来讲第二种用得多，表明build的时候不传入变量设置默认值，无值也就是第一种下用户在docker build的时候必须传入值，否则就报错。例如我们可以把nginx官方dockerfile的第一个ENV改成ARG，我们想构建哪个版本直接build的时候传入变量就行了。例如下面这样`VERSION=2.4.7`
+一般来讲第二种用得多，表明build的时候不传入变量设置默认值，无值也就是第一种下用户在`docker build`的时候必须传入值，否则就报错。例如我们可以把 nginx 官方 dockerfile 的第一个 ENV 改成 ARG，我们想构建哪个版本直接build的时候传入变量就行了。例如下面这样`VERSION=2.4.7`
 
 ```text
 ARG VERSION=2.4.7
@@ -24,14 +24,14 @@ RUN .... && \
         | bash -s -- -mariadb-maxscale-version $VERSION
 ```
 
-当然ARG是唯一一个可以用于FROM前面的指令，例如下面这样我们可以通过命令行传递参数来改变FROM的base镜像
+当然 ARG 是唯一一个可以用于 FROM 前面的指令，例如下面这样我们可以通过命令行传递参数来改变FROM的 base 镜像
 
 ```text
 ARG jdk=1.8xxxx
 FROM openjdk:$jdk
 ```
 
-如果你在FROM前面使用arg指令会有个坑，在FROM前面的ARG指令的值，会在FROM后面都是空值的
+如果你在 FROM 前面使用 arg 指令会有个坑，在 FROM 前面的 ARG 指令的值，会在过了这个 FROM 后面都是空值的
 
 ```text
 $ cat Dockerfile //Dockerfle的内容
