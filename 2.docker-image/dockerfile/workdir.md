@@ -15,5 +15,5 @@ WORKDIR c
 RUN pwd
 ```
 
- 最终`pwd`命令的输出`Dockerfile`将是 `/a/b/c`是
+ 最终`pwd`命令的输出`Dockerfile`将是 `/a/b/c`
 
