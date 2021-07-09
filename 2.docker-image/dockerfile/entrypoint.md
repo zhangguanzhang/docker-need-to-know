@@ -14,5 +14,15 @@ alpine 的 root 目录是没有文件的，所以`ls /root`没有输出，我们
 
 上面例子可以很形象的证明了是这个关系，最终运行的是**&lt;ENTRYPOINT&gt; &lt;CMD&gt;**，同时不光在docker run的时候覆盖掉 CMD，也可以覆盖掉默认的 entrypoint。很多时候我们可以主进程 bash 或者 sh 进去手动启动看看。老版本接触不多，不确定老版本有没有`--entrypoint`的选项。
 
-最后如果是/bin/sh 的 entrypoint 会忽略掉 CMD 和 docker run 的 command 参数
+最后如果是/bin/sh 的 entrypoint 会忽略掉 CMD 和 `docker run` 的 command 参数。
+
+不要在 `ENTRYPOINT`里用变量，要么你的命令放镜像`PATH`里，要么放根目录：
+
+```text
+COPY myapp /usr/local/bin/myapp
+ENTRYPOINT ["myapp"]
+# or this
+COPY myapp /myapp
+ENTRYPOINT ["/myapp"]
+```
 
