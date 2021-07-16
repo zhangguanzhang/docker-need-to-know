@@ -42,3 +42,10 @@ else
 fi
 ```
 
+### 一次复制多个文件到容器里
+
+```text
+tar -c $(ls | grep -v "^(ui\|ui-v2\|website\|bin\|pkg\|.git)") \
+    | docker cp - ${container_id}:/consul
+```
+
