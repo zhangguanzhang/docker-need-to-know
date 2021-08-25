@@ -49,3 +49,39 @@ tar -c $(ls | grep -v "^(ui\|ui-v2\|website\|bin\|pkg\|.git)") \
     | docker cp - ${container_id}:/consul
 ```
 
+### 查看 veth 的 peer
+
+这里我以 k8s 的做示例，docker 的也一样，k8s 现在 cni-plugins 标准，k8s 的容器都是在 `cni-plugins` 下桥接在 `cni0` 上的
+
+```text
+# 取容器 pid
+$ docker inspect d30 | grep -m1 -i pid
+            "Pid": 9079,
+
+$ nsenter --net --target 9079 ip a s 
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+3: eth0@if210: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1450 qdisc noqueue state UP group default 
+    link/ether 06:3e:42:00:91:33 brd ff:ff:ff:ff:ff:ff link-netnsid 0
+    inet 172.27.0.74/24 brd 172.27.0.255 scope global eth0
+       valid_lft forever preferred_lft forever
+```
+
+ 注意看 `if` 后面的数字，宿主机上查看下是哪个 `veth`
+
+```text
+$ ip link | grep -E '^210'
+210: vetha1ca1d55@if3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1450 qdisc noqueue master cni0 state UP mode DEFAULT group default
+```
+
+使用 `brctl` 看下 `cni0` 下是有这个的:
+
+```text
+$ brctl show cni0 | grep vetha1ca1d55
+							vetha1ca1d55
+```
+
+
+
