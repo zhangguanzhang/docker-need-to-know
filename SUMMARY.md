@@ -29,6 +29,7 @@
     * [STOPSIGNAL--与信号转发](2.docker-image/dockerfile/stopsignal.md)
     * [exec与entrypoint使用脚本](2.docker-image/dockerfile/exec-and-entrypoint.md)
     * [使用 buildx 构建多平台 Docker 镜像](2.docker-image/dockerfile/shi-yong-buildx-gou-jian-duo-ping-tai-docker-jing-xiang.md)
+    * [buildx 妙用](2.docker-image/dockerfile/buildx-miao-yong.md)
     * [特权构建镜像](2.docker-image/dockerfile/te-quan-gou-jian-jing-xiang.md)
   * [如何构建标准且人性化镜像](2.docker-image/great-images.md)
 * [3.容器无法运行排错](3.container-cannot-run.md)
@@ -43,4 +44,3 @@
   * [容器互联](6.container-network/container-network-interconnected.md)
 * [7.编排利器docker-compose](docker-compose.md)
 * [8.一些使用和配置问题](some-conf-in-use.md)
-
