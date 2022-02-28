@@ -1,8 +1,8 @@
 # 8.一些使用和配置问题
 
-## docker pull x509:certificate signed by unknown authority <a id="articleContentId"></a>
+## docker pull x509:certificate signed by unknown authority <a href="#articlecontentid" id="articlecontentid"></a>
 
-```text
+```
 domain=xxx
 port=443
 
@@ -12,9 +12,9 @@ openssl s_client -showcerts -connect ${domain}:${port} < /dev/null | \
   
 ```
 
-### 根据端口查容器名字
+### 根据进程pid或者端口查容器名字
 
-```text
+```
 $ netstat -nlpt | grep 10080
 tcp        0      0 0.0.0.0:10080           0.0.0.0:*               LISTEN      11751/nginx: master
 # 列出 pid 11751的进程树
@@ -30,11 +30,13 @@ $ docker ps -a | grep fc66
 fc6676704786     treg.xxxx.xxx.cn/xxxxxx/ftp_nginx:xxx   "/bin/ba…"   2 weeks ago     Up 13 days           ftp_nginx
 ```
 
+上面比如有可疑进程，确定进程不是宿主机的 path，可以上面的步骤 pstree -sp 开始查到容器的名字。
+
 ### 判断是否在容器内
 
 `/proc/1/sched`的第一行会显示真实的 pid，所以可以靠这个来判断是否是在容器内
 
-```text
+```
 if [ `head -n1 /proc/1/sched | cut -d \( -f2 | cut -d, -f1` -eq 1 ];then
     echo not in container
 else
@@ -44,7 +46,7 @@ fi
 
 ### 一次复制多个文件到容器里
 
-```text
+```
 tar -c $(ls | grep -v "^(ui\|ui-v2\|website\|bin\|pkg\|.git)") \
     | docker cp - ${container_id}:/consul
 ```
@@ -53,7 +55,7 @@ tar -c $(ls | grep -v "^(ui\|ui-v2\|website\|bin\|pkg\|.git)") \
 
 这里我以 k8s 的做示例，docker 的也一样，k8s 现在 cni-plugins 标准，k8s 的容器都是在 `cni-plugins` 下桥接在 `cni0` 上的
 
-```text
+```
 # 取容器 pid
 $ docker inspect d30 | grep -m1 -i pid
             "Pid": 9079,
@@ -69,19 +71,17 @@ $ nsenter --net --target 9079 ip a s
        valid_lft forever preferred_lft forever
 ```
 
- 注意看 `if` 后面的数字，宿主机上查看下是哪个 `veth`
+&#x20;注意看 `if` 后面的数字，宿主机上查看下是哪个 `veth`
 
-```text
+```
 $ ip link | grep -E '^210'
 210: vetha1ca1d55@if3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1450 qdisc noqueue master cni0 state UP mode DEFAULT group default
 ```
 
 使用 `brctl` 看下 `cni0` 下是有这个的:
 
-```text
+```
 $ brctl show cni0 | grep vetha1ca1d55
 							vetha1ca1d55
 ```
-
-
 
