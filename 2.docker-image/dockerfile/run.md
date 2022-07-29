@@ -6,12 +6,12 @@ description: 在这一层执行命令
 
 有两种形式
 
-* RUN command \( 该命令在shell中运行，默认情况下在Linux上是`/bin/sh -c`或windows的`cmd /S /C`\)
-* RUN \["executable", "param1", "param2"\] \(exec 形式\)
+* `RUN command` ( 该命令在shell中运行，默认情况下在Linux上是`/bin/sh -c`或windows的`cmd /S /C`)
+* `RUN ["executable", "param1", "param2"]` (exec 形式)
 
-exec形式不会调用shell先展开变量，也就是不会解析ENV或者ARG的变量，所以一般来讲用得比较多的就是第一种形式，多行的话可以利用`\`换行
+exec 形式不会调用 shell 先展开变量，也就是不会解析 ENV 或者 ARG 的变量，所以一般来讲用得比较多的就是第一种形式，多行的话可以利用`\`换行
 
-```text
+```
 RUN  .....\
     && addgroup -S nginx \
 	&& adduser -D -S -h /var/cache/nginx -s /sbin/nologin -G nginx nginx \
@@ -19,9 +19,9 @@ RUN  .....\
 	.....
 ```
 
-这里要注意的是一个RUN是一层，dockerfile的一些涉及到文件的指令和RUN都会是新的一层，主要是构建过程实际上还是容器去commit，**目的相同的RUN尽量合并在同一个RUN里减少大小**。下面我做个例子来说明原因
+这里要注意的是一个 RUN 是一层，dockerfile 的一些涉及到文件的指令和 RUN 都会是新的一层，主要是构建过程实际上还是容器去commit，**目的相同的RUN尽量合并在同一个RUN里减少大小**。下面我做个例子来说明原因
 
-```text
+```
 FROM alpine
 RUN apk add wget  && wget https://www.baidu.com -O test.html
 RUN echo 123 > test.html
@@ -29,42 +29,17 @@ RUN echo 123 > test.html
 
 构建并运行
 
-```text
+```
 $ docker build -t test .
 Sending build context to Docker daemon  57.34kB
-Step 1/3 : FROM alpine
- ---> 5cb3aa00f899
-Step 2/3 : RUN apk add wget  && wget https://www.baidu.com -O test.html
- ---> Running in 5b3657e06a8e
-fetch http://dl-cdn.alpinelinux.org/alpine/v3.9/main/x86_64/APKINDEX.tar.gz
-fetch http://dl-cdn.alpinelinux.org/alpine/v3.9/community/x86_64/APKINDEX.tar.gz
-(1/1) Installing wget (1.20.3-r0)
-Executing busybox-1.29.3-r10.trigger
-OK: 6 MiB in 15 packages
---2019-04-16 17:54:33--  https://www.baidu.com/
-Resolving www.baidu.com... 61.135.169.121, 61.135.169.125
-Connecting to www.baidu.com|61.135.169.121|:443... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 2443 (2.4K) [text/html]
-Saving to: 'test.html'
-
-     0K ..                                                    100%  252M=0s
-
-2019-04-16 17:54:33 (252 MB/s) - 'test.html' saved [2443/2443]
-
-Removing intermediate container 5b3657e06a8e
- ---> b7fc2afcf946
-Step 3/3 : RUN echo 123 > test.html
- ---> Running in 10c384962a0c
-Removing intermediate container 10c384962a0c
- ---> 6382e6e749fa
+...
 Successfully built 6382e6e749fa
 Successfully tagged test:latest
 ```
 
 运行然后查看docker的存储目录查找
 
-```text
+```
 [root@CentOS76 ~]# docker run --rm test cat test.html
 123
 [root@CentOS76 ~]# find /var/lib/docker/overlay2/ -type f -name test.html
@@ -80,7 +55,6 @@ Successfully tagged test:latest
 [root@CentOS76 ~]# 
 ```
 
-我们发现两个文件都存在，前面说到了容器在读取文件的时候从上层往下查找，查找到了就返回，但是我的这个Dockerfile里第一个RUN下载了index页面，第二个改了文件内容。
+我们发现两个文件都存在，前面说到了容器在读取文件的时候从上层往下查找，查找到了就返回，但是我的这个Dockerfile里第一个RUN下载了 index 页面，第二个改了文件内容。
 
-可以证明一个RUN是一层，也证明了之前容器读取文件的逻辑。同时假设我们的目的是最终的123，我们可以俩个RUN合并了，这样就不会有多余的第一个RUN产生的test.html文件
-
+可以证明一个 RUN 是一层，也证明了之前容器读取文件的逻辑。同时假设我们的目的是最终的123，我们可以俩个RUN合并了，这样就不会有多余的第一个RUN产生的 test.html 文件
