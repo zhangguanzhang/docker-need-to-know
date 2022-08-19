@@ -65,4 +65,4 @@ RUN curl或者wget下载源码包\
 
 
 
-最后是推荐一个漠然大佬的示例，漠然大佬的 github 上很多镜像下载量很多，可以去他 github 看，这里我放下他的 java 的应用示例 [https://github.com/Gozap/dockerfile](https://github.com/Gozap/dockerfile)
+最后是推荐一个漠然大佬的示例，漠然大佬的 github 上很多镜像下载量很多，可以去他 github 看，这里我放下他的 java 的应用示例 [https://github.com/mritd/dockerfile](https://github.com/mritd/dockerfile)
