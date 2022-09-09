@@ -85,3 +85,6 @@ $ brctl show cni0 | grep vetha1ca1d55
 							vetha1ca1d55
 ```
 
+### &#x20;buildkit 开启下 build --host 过程中没有宿主机的 hosts
+
+&#x20;docker 版本 `Server Version: 20.10.9`&#x20;
