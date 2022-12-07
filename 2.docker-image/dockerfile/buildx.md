@@ -128,6 +128,25 @@ $ docker buildx build -t zhangguanzhang/keepalived:v2.0.20 --platform=linux/arm6
 $ docker buildx build -t zhangguanzhang/keepalived:v2.0.20 --platform=linux/amd64 -o type=docker .
 ```
 
+## 内置变量
+
+&#x20; `TARGETPLATFORM` `TARGETARCH` `BUILDARCH`
+
+```
+# cat Dockerfile 
+FROM alpine as b
+ARG TARGETPLATFORM
+ARG TARGETARCH
+ARG BUILDARCH
+RUN echo $TARGETPLATFORM $TARGETARCH $BUILDARCH
+# docker buildx build --platform linux/arm64,linux/amd64 -t test .
+...
+ => [linux/amd64 2/2] RUN echo linux/amd64 amd64 amd64                                                                                                                                                                                 0.1s
+ => [linux/arm64 2/2] RUN echo linux/arm64 arm64 amd64
+```
+
+&#x20;
+
 ## 参考
 
 * [https://fuckcloudnative.io/posts/multiarch-docker-with-buildx/](https://fuckcloudnative.io/posts/multiarch-docker-with-buildx/)
