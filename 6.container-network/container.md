@@ -2,19 +2,19 @@
 
 一张实践图说明
 
-![](../.gitbook/assets/image%20%2849%29.png)
+![](<../.gitbook/assets/image (49).png>)
 
 网络情况如下图
 
-![](../.gitbook/assets/image%20%2867%29.png)
+![](<../.gitbook/assets/image (67).png>)
 
-这种场景纯docker的话可以用来排错，例如某个容器网络不正常，内网情况下这个容器里又没网络排查工具。
+这种场景纯 docker 的话可以用来排错，例如某个容器网络不正常，内网情况下这个容器里又没网络排查工具。
 
-我们可以自己做个带一些网络工具的镜像，启动容器的时候使用这个模式然后进容器里抓包分析啥的。k8s里的pod就是一组容器共用一个network namespace，容器之间使用localhost就能通信. k8s起的pod的容器我们也可以使用container附加同一个网络起一个容器排查网络情况。
+我们可以自己做个带一些网络工具的镜像，启动容器的时候使用这个模式然后进容器里抓包分析啥的。k8s里的 pod 就是一组容器共用一个 network namespace，容器之间使用localhost就能通信. k8s起的pod的容器我们也可以使用 container 附加同一个网络起一个容器排查网络情况。
 
 nsenter也可以附加进入容器的ns，直接使用宿主机上的命令行进入附加进入到容器的ns里调试，但是容器的`/etc/resolv.conf`属于mount ns的，单纯附加`--net`
 
-```text
+```
 $ kubectl get po
 NAME                     READY   STATUS    RESTARTS   AGE
 nginx-668cd5d7b5-f6bxf   1/1     Running   7          43d
@@ -44,10 +44,9 @@ options ndots:5
 
 nsenter带上 `--mount` 才能看到容器的`/etc/resolv.conf`，但是这样进去就是容器的rootfs了，没有排查命令，所以更多时候还是准备一个工具镜像使用`docker run --net container`去排查最保险
 
-```text
+```
 $ docker run --rm --net container:a7abc0e4af98 alpine:latest cat /etc/resolv.conf
 nameserver 10.96.0.10
 search default.svc.cluster.local svc.cluster.local cluster.local
 options ndots:5
 ```
-

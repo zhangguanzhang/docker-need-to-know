@@ -8,7 +8,7 @@
 
 从 `docker0` 子网中分配一个 IP 给容器使用，并设置 docker0 的 IP 地址为容器的默认网关。在主机上创建一对虚拟网卡 veth pair 设备，Docker 将 veth pair 设备的一端放在新创建的容器中，并命名为 eth0（容器的网卡），另一端放在主机中，以 `vethxxx` 这样类似的名字命名，并将这个网络设备加入到docker0 网桥中。可以通过 brctl show 命令查看。
 
-bridge 模式是docker  的默认网络模式，不写 `--net` 参数，就是 bridge 模式。使用 `docker run -p` 时，docker 实际是在 iptables 做了 DNAT 规则，实现端口转发功能。可以使用 `iptables -t nat -S` 查看。
+bridge 模式是docker 的默认网络模式，不写 `--net` 参数，就是 bridge 模式。使用 `docker run -p` 时，docker 实际是在 iptables 做了 DNAT 规则，实现端口转发功能。可以使用 `iptables -t nat -S` 查看。
 
 bridge 模式如下图所示：
 
@@ -28,7 +28,7 @@ bridge 模式如下图所示：
 
 ![](<../.gitbook/assets/image (41).png>)
 
-这条规则的意思是说，源ip是172.17.0.0/16的包，在经过路由后不是从docker0网桥出去的（容器访问外网会走默认路由，那路由过后也就是我们机器的网卡ens33）做snat，出去的ip为出去网卡（ens33）的ip
+这条规则的意思是说，源 ip 是 172.17.0.0/16 的包，在经过路由后不是从 docker0 网桥出去的（容器访问外网会走默认路由，那路由过后也就是我们机器的网卡ens33）做 snat，出去的ip为出去网卡（ens33）的ip
 
 ![](<../.gitbook/assets/image (31).png>)
 
@@ -38,21 +38,19 @@ bridge 模式如下图所示：
 
 ### 外面访问容器：
 
-Linux的端口要被外部访问那这台机器上一定有进程bind这个端口，我们开个-p 80:80的nginx看看是哪个进程bind住80端口的
+Linux的端口要被外部访问那这台机器上一定有进程bind这个端口，我们开个 `-p 80:80` 的 nginx 看看是哪个进程 bind 住80端口的
 
 ![](<../.gitbook/assets/image (22).png>)
 
-我们发现bind端口的是docker-proxy，查看它的进程参数也一目了然。也就是说实际上不映射端口我们也可以在宿主机上访问容器ip和端口即可访问他们的服务，也就是下面的图，引用下别人的图
+我们发现bind端口的是 docker-proxy，查看它的进程参数也一目了然。也就是说实际上不映射端口我们也可以在宿主机上访问容器ip和端口即可访问他们的服务，也就是下面的图，引用下别人的图
 
 ![](<../.gitbook/assets/image (40).png>)
 
 最后也可以自定义另一个网络就不说了，详细去看 [https://www.cnblogs.com/CloudMan6/p/7077198.html](https://www.cnblogs.com/CloudMan6/p/7077198.html)
 
-
-
 ## 桥接时候端口过滤
 
-例如 `docker run -d  --name t1 --rm  -p 81:80 nginx:alpine` 起了个容器后，想对 80 的端口做 iptables 限制。按照你的理解会发现无法实现，这里直接放下答案：
+例如 `docker run -d --name t1 --rm -p 81:80 nginx:alpine` 起了个容器后，想对 80 的端口做 iptables 限制。按照你的理解会发现无法实现，这里直接放下答案：
 
 ```
 进来之前是走的 nat 表的 PREROUTING，pre route 会做 dnat 到容器 ip 的 80
